@@ -1,10 +1,7 @@
 import { useState } from "react";
 import {
-  BadGuy,
   badGuys,
-  bg,
   CombatPhase,
-  Hero,
   heroes,
   InitActor,
   INITIAL_TURN_EVENT,
