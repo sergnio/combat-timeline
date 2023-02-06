@@ -8,7 +8,6 @@ import ActionTimeline from "./ActionTimeline";
 
 const EntireContainer = styled.div`
   margin-left: 5em;
-  //
 `;
 
 const ButtonsContainer = styled.div`
@@ -17,7 +16,6 @@ const ButtonsContainer = styled.div`
 
 const TimelineContainer = styled.div`
   display: flex;
-  /** TODO - remove this?? */
   & + div {
     padding: 0.25em;
   }
