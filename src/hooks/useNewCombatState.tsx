@@ -129,9 +129,7 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
         }
         break;
       case CombatPhase.action:
-        console.log("action");
         const atActionPhaseEnd = uptickActionIndex();
-        console.log("atActionPhaseEnd", atActionPhaseEnd);
         if (atActionPhaseEnd) {
           advanceTimeline();
           setPhase(CombatPhase.initiative);
@@ -147,30 +145,28 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     }
   };
 
-  const regressTimeline = () => {
-    console.log("regress");
-    const newTurn = turn - 1;
-    setTimeline(INITIAL_TURN_EVENT(newTurn));
-    setTurn(newTurn);
-  };
-
   const downtickMovementIndex = (): boolean => {
-    const atBeginning = timeline.movement.selectedCharacterIndex <= 0;
+    let currentIndex = timeline.movement.selectedCharacterIndex;
+    const atBeginning = currentIndex <= 0;
     if (atBeginning) {
       return true;
     }
 
     setTimeline((prevTimeline) => ({
       ...prevTimeline,
-      movementIndex: prevTimeline.movement.selectedCharacterIndex - 1,
+      movement: {
+        ...prevTimeline.movement,
+        selectedCharacterIndex:
+          prevTimeline.movement.selectedCharacterIndex - 1,
+      },
     }));
     return false;
   };
 
   const onPreviousClick = () => {
     if (timeline.phase === CombatPhase.initiative) {
-      regressTimeline();
       setPhase(CombatPhase.action);
+      setTurn(turn - 1);
     } else if (timeline.phase === CombatPhase.movement) {
       const atEnd = downtickMovementIndex();
       if (atEnd) {
@@ -180,20 +176,23 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
       const atEnd = downtickActionIndex();
       if (atEnd) {
         setPhase(CombatPhase.movement);
-        setTurn(turn - 1);
       }
     }
   };
 
   const downtickActionIndex = (): boolean => {
-    const atBeginning = timeline.action.selectedCharacterIndex === 0;
+    let currentIndex = timeline.action.selectedCharacterIndex;
+    const atBeginning = currentIndex === 0;
     if (atBeginning) {
       return true;
     }
 
     setTimeline((prevTimeline) => ({
       ...prevTimeline,
-      actionIndex: prevTimeline.action.selectedCharacterIndex - 1,
+      action: {
+        ...prevTimeline.action,
+        selectedCharacterIndex: prevTimeline.action.selectedCharacterIndex - 1,
+      },
     }));
     return false;
   };
@@ -204,14 +203,11 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   };
 
   const advanceTimeline = () => {
-    console.log("advance");
-
-    setTimeline(INITIAL_TURN_EVENT(1));
+    timelineSetter((prevState) => [...prevState, INITIAL_TURN_EVENT(turn + 1)]);
     setTurn(turn + 1);
   };
 
   const setPhase = (newPhase: CombatPhase) => {
-    console.log("setting to new phase", newPhase);
     setTimeline((prevTimeline) => ({
       ...prevTimeline,
       phase: newPhase,
@@ -219,10 +215,11 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   };
   return {
     turn,
-    phase: timeline.phase,
-    firstActor: timeline.initiative.movesFirst,
-    initiativeWinner: timeline.initiative.initiativeWinner,
+    phase: timeline?.phase,
+    firstActor: timeline?.initiative?.movesFirst,
+    initiativeWinner: timeline?.initiative?.initiativeWinner,
     timeline,
+    entireTimeline,
     onAdvanceClick,
     onPreviousClick,
   };

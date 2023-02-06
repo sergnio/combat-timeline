@@ -40,6 +40,7 @@ export default () => {
     firstActor,
     initiativeWinner,
     onAdvanceClick,
+    entireTimeline,
     timeline,
     onPreviousClick,
   } = useNewCombatState();
@@ -62,6 +63,7 @@ export default () => {
     <Main>
       <EntireContainer>
         Turn: {turn}
+        Timeline: {JSON.stringify(entireTimeline)}
         <TimelineContainer>
           <InitiativeTimeline {...{ timeline }} />
           <MovementTimeline {...{ movementOrder, timeline, movementIndex }} />
