@@ -1,12 +1,10 @@
 import { TimelineNode } from "./styles/Styles";
-import useNewCombatState from "./hooks/useNewCombatState";
 import { CombatPhase } from "./types/types";
-import { useState } from "react";
 
 export default ({ actionOrder, phase, actionIndex }: any) => {
   return (
     <>
-      {actionOrder && phase === CombatPhase.action ? (
+      {phase === CombatPhase.action ? (
         <>
           {actionOrder?.map((actor: any, index: number) => (
             <TimelineNode

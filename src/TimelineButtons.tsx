@@ -13,7 +13,7 @@ export default ({
   onAdvanceClick,
   onPreviousClick,
 }: Props) => {
-  const onDisabledClick = () => alert("tell them this is disabled");
+  const onDisabledClick = () => console.log("tell them this is disabled");
   return (
     <>
       {previousDisabled ? (

@@ -132,14 +132,7 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
         const atActionPhaseEnd = uptickActionIndex();
         if (atActionPhaseEnd) {
           advanceTimeline();
-          setPhase(CombatPhase.initiative);
           rollInitiative();
-          let newTurn = turn + 1;
-          setTurn(newTurn);
-          timelineSetter((prevState) => [
-            ...prevState,
-            INITIAL_TURN_EVENT(newTurn),
-          ]);
         }
         break;
     }
@@ -163,10 +156,14 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     return false;
   };
 
+  function onRegressTimeline() {
+    setTurn((prevState) => prevState - 1);
+  }
+
   const onPreviousClick = () => {
     if (timeline.phase === CombatPhase.initiative) {
-      setPhase(CombatPhase.action);
-      setTurn(turn - 1);
+      console.log("just in init");
+      onRegressTimeline();
     } else if (timeline.phase === CombatPhase.movement) {
       const atEnd = downtickMovementIndex();
       if (atEnd) {
@@ -203,8 +200,12 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   };
 
   const advanceTimeline = () => {
-    timelineSetter((prevState) => [...prevState, INITIAL_TURN_EVENT(turn + 1)]);
     setTurn(turn + 1);
+    if (entireTimeline.find((timeline) => timeline.turn === turn + 1)) {
+      return;
+    }
+
+    timelineSetter((prevState) => [...prevState, INITIAL_TURN_EVENT(turn + 1)]);
   };
 
   const setPhase = (newPhase: CombatPhase) => {
@@ -213,6 +214,7 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
       phase: newPhase,
     }));
   };
+
   return {
     turn,
     phase: timeline?.phase,

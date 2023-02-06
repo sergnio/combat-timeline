@@ -62,8 +62,24 @@ export default () => {
   return (
     <Main>
       <EntireContainer>
-        Turn: {turn}
-        Timeline: {JSON.stringify(entireTimeline)}
+        <div>
+          {/*<div>*/}
+          {/*current turn: {timeline.turn} current phase: {timeline.phase} current*/}
+          {/*move: {timeline.movement.selectedCharacterIndex} current action:{" "}*/}
+          {/*{timeline.action.selectedCharacterIndex}{" "}*/}
+          {/*</div>*/}
+          current order {JSON.stringify(timeline.action.characterOrder)}
+          <div style={{ marginBottom: "1em" }}></div>
+        </div>
+
+        {entireTimeline.map((t, i) => (
+          <div key={i}>
+            {/*turn {t.turn} phase {t.phase} move{" "}*/}
+            {/*{t.movement.selectedCharacterIndex} action{" "}*/}
+            {/*{t.action.selectedCharacterIndex}*/}
+            order {JSON.stringify(t.action.characterOrder)}
+          </div>
+        ))}
         <TimelineContainer>
           <InitiativeTimeline {...{ timeline }} />
           <MovementTimeline {...{ movementOrder, timeline, movementIndex }} />
@@ -73,9 +89,7 @@ export default () => {
           <TimelineButtons
             previousDisabled={firstTurnFirstClick}
             nextDisabled={initPhaseDisabled}
-            onAdvanceClick={() => {
-              onAdvanceClick();
-            }}
+            onAdvanceClick={onAdvanceClick}
             onPreviousClick={onPreviousClick}
           />
         </ButtonsContainer>
