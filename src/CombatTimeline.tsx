@@ -64,11 +64,11 @@ export default () => {
       <EntireContainer>
         <div>
           {/*<div>*/}
-          {/*current turn: {timeline.turn} current phase: {timeline.phase} current*/}
-          {/*move: {timeline.movement.selectedCharacterIndex} current action:{" "}*/}
+          current turn: {timeline.turn} current phase: {timeline.phase}
+          {/*current move: {timeline.movement.selectedCharacterIndex} current action:{" "}*/}
           {/*{timeline.action.selectedCharacterIndex}{" "}*/}
           {/*</div>*/}
-          current order {JSON.stringify(timeline.action.characterOrder)}
+          {/*current order {JSON.stringify(timeline.action.characterOrder)}*/}
           <div style={{ marginBottom: "1em" }}></div>
         </div>
 
@@ -77,7 +77,7 @@ export default () => {
             {/*turn {t.turn} phase {t.phase} move{" "}*/}
             {/*{t.movement.selectedCharacterIndex} action{" "}*/}
             {/*{t.action.selectedCharacterIndex}*/}
-            order {JSON.stringify(t.action.characterOrder)}
+            {/*order {JSON.stringify(t.action.characterOrder)}*/}
           </div>
         ))}
         <TimelineContainer>
