@@ -136,6 +136,12 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
           advanceTimeline();
           setPhase(CombatPhase.initiative);
           rollInitiative();
+          let newTurn = turn + 1;
+          setTurn(newTurn);
+          timelineSetter((prevState) => [
+            ...prevState,
+            INITIAL_TURN_EVENT(newTurn),
+          ]);
         }
         break;
     }
@@ -174,6 +180,7 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
       const atEnd = downtickActionIndex();
       if (atEnd) {
         setPhase(CombatPhase.movement);
+        setTurn(turn - 1);
       }
     }
   };

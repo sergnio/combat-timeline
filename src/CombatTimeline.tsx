@@ -7,6 +7,7 @@ import TimelineButtons from "./TimelineButtons";
 import ActionTimeline from "./ActionTimeline";
 
 const EntireContainer = styled.div`
+  margin-left: 5em;
   //
 `;
 
@@ -24,7 +25,7 @@ const TimelineContainer = styled.div`
 
 const Main = styled.main`
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   height: 100vh;
   width: 100vw;
