@@ -1,13 +1,11 @@
-import useNewCombatState from "hooks/useNewCombatState";
-import { TimelineNode } from "styles/Styles";
-import { CombatPhase } from "types/types";
+import { TimelineNode } from "./styles/Styles";
+import useNewCombatState from "./hooks/useNewCombatState";
+import { CombatPhase } from "./types/types";
 
-export default () => {
-  const { phase } = useNewCombatState();
-
+export default ({ timeline }: any) => {
   return (
     <>
-      <TimelineNode enabled={phase === CombatPhase.initiative}>
+      <TimelineNode enabled={timeline.phase === CombatPhase.initiative}>
         Initiative
       </TimelineNode>
     </>

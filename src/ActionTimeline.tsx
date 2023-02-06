@@ -1,26 +1,20 @@
-import useNewCombatState from "hooks/useNewCombatState";
-import { CombatPhase } from "types/types";
-import { TimelineNode } from "styles/Styles";
+import { TimelineNode } from "./styles/Styles";
+import useNewCombatState from "./hooks/useNewCombatState";
+import { CombatPhase } from "./types/types";
+import { useState } from "react";
 
-export default () => {
-  // todo - always need to show previous turn's orders
-  const { timeline } = useNewCombatState();
-
-  const currentIndex = timeline.action.selectedCharacterIndex;
-  const phase = timeline.phase;
-  const actionOrder = timeline.action.characterOrder;
-
+export default ({ actionOrder, phase, actionIndex }: any) => {
   return (
     <>
       {actionOrder && phase === CombatPhase.action ? (
         <>
-          {actionOrder?.map((actor, index) => (
+          {actionOrder?.map((actor: any, index: number) => (
             <TimelineNode
               key={`${actor.id}-${index}`}
-              enabled={phase === CombatPhase.action && currentIndex === index}
+              enabled={phase === CombatPhase.action && actionIndex === index}
             >
               <div>
-                {actor.name} {actor.attackOrder}
+                {actor.name} ({actor.attackOrder})
               </div>
             </TimelineNode>
           ))}

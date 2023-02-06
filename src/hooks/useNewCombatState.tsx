@@ -7,8 +7,8 @@ import {
   INITIAL_TURN_EVENT,
   TurnEvent,
   Undefinable,
-} from "types/types";
-import { sortActionOrder } from "helpers/helper";
+} from "../types/types";
+import { sortActionOrder } from "../helpers/helper";
 
 export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   const [turn, setTurn] = useState<number>(1);
@@ -16,7 +16,6 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     INITIAL_TURN_EVENT(),
   ]);
   const timeline = entireTimeline.find((t) => t.turn === turn) as TurnEvent;
-  const phase = timeline.phase;
 
   const setTimeline = (
     newTimeline: TurnEvent | ((prevState: TurnEvent) => TurnEvent)
@@ -117,7 +116,7 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   };
 
   const onAdvanceClick = () => {
-    switch (phase) {
+    switch (timeline.phase) {
       case CombatPhase.initiative:
         setPhase(CombatPhase.movement);
         break;
@@ -163,15 +162,15 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   };
 
   const onPreviousClick = () => {
-    if (phase === CombatPhase.initiative) {
+    if (timeline.phase === CombatPhase.initiative) {
       regressTimeline();
       setPhase(CombatPhase.action);
-    } else if (phase === CombatPhase.movement) {
+    } else if (timeline.phase === CombatPhase.movement) {
       const atEnd = downtickMovementIndex();
       if (atEnd) {
         setPhase(CombatPhase.initiative);
       }
-    } else if (phase === CombatPhase.action) {
+    } else if (timeline.phase === CombatPhase.action) {
       const atEnd = downtickActionIndex();
       if (atEnd) {
         setPhase(CombatPhase.movement);
@@ -204,15 +203,16 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     setTurn(turn + 1);
   };
 
-  const setPhase = (newPhase: CombatPhase) =>
+  const setPhase = (newPhase: CombatPhase) => {
+    console.log("setting to new phase", newPhase);
     setTimeline((prevTimeline) => ({
       ...prevTimeline,
       phase: newPhase,
     }));
-
+  };
   return {
     turn,
-    phase,
+    phase: timeline.phase,
     firstActor: timeline.initiative.movesFirst,
     initiativeWinner: timeline.initiative.initiativeWinner,
     timeline,

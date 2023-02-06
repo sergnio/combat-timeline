@@ -1,4 +1,4 @@
-import { BadGuy, Hero, InitActor } from "types/types";
+import { BadGuy, Hero, InitActor } from "../types/types";
 
 export const sortActionOrder = (
   combatants: (Hero | BadGuy)[],

@@ -1,4 +1,4 @@
-import { AdvanceButton, DisabledButton, PreviousButton } from "styles/Styles";
+import { AdvanceButton, DisabledButton, PreviousButton } from "./styles/Styles";
 
 interface Props {
   nextDisabled: boolean;

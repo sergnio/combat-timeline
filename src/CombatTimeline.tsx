@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import useNewCombatState from "hooks/useNewCombatState";
-import { CombatPhase } from "types/types";
-import InitiativeTimeline from "InitiativeTimeline";
-import MovementTimeline from "MovementTimeline";
-import ActionTimeline from "ActionTimeline";
-import TimelineButtons from "TimelineButtons";
+import InitiativeTimeline from "./InitiativeTimeline";
+import MovementTimeline from "./MovementTimeline";
+import useNewCombatState from "./hooks/useNewCombatState";
+import { CombatPhase, InitActor } from "./types/types";
+import TimelineButtons from "./TimelineButtons";
+import ActionTimeline from "./ActionTimeline";
 
 const EntireContainer = styled.div`
   //
@@ -22,6 +22,16 @@ const TimelineContainer = styled.div`
   }
 `;
 
+const Main = styled.main`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: hsl(0, 0%, 36%);
+  color: white;
+`;
+
 export default () => {
   const {
     turn,
@@ -29,6 +39,7 @@ export default () => {
     firstActor,
     initiativeWinner,
     onAdvanceClick,
+    timeline,
     onPreviousClick,
   } = useNewCombatState();
 
@@ -37,24 +48,35 @@ export default () => {
     phase === CombatPhase.initiative && (!initiativeWinner || !hasFirstActor);
   const firstTurnFirstClick = phase === CombatPhase.initiative && turn === 1;
 
+  const movementIndex = timeline.movement.selectedCharacterIndex;
+  const movementOrder =
+    timeline.initiative.movesFirst === InitActor.Heroes
+      ? [InitActor.Heroes, InitActor.Enemies]
+      : [InitActor.Enemies, InitActor.Heroes];
+
+  const actionIndex = timeline.action.selectedCharacterIndex;
+  const actionOrder = timeline.action.characterOrder;
+
   return (
-    <EntireContainer>
-      Turn: {turn}
-      <TimelineContainer>
-        <InitiativeTimeline />
-        <MovementTimeline />
-        <ActionTimeline />
-      </TimelineContainer>
-      <ButtonsContainer>
-        <TimelineButtons
-          previousDisabled={firstTurnFirstClick}
-          nextDisabled={initPhaseDisabled}
-          onAdvanceClick={() => {
-            onAdvanceClick();
-          }}
-          onPreviousClick={onPreviousClick}
-        />
-      </ButtonsContainer>
-    </EntireContainer>
+    <Main>
+      <EntireContainer>
+        Turn: {turn}
+        <TimelineContainer>
+          <InitiativeTimeline {...{ timeline }} />
+          <MovementTimeline {...{ movementOrder, timeline, movementIndex }} />
+          <ActionTimeline {...{ actionIndex, phase, actionOrder }} />
+        </TimelineContainer>
+        <ButtonsContainer>
+          <TimelineButtons
+            previousDisabled={firstTurnFirstClick}
+            nextDisabled={initPhaseDisabled}
+            onAdvanceClick={() => {
+              onAdvanceClick();
+            }}
+            onPreviousClick={onPreviousClick}
+          />
+        </ButtonsContainer>
+      </EntireContainer>
+    </Main>
   );
 };

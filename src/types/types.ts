@@ -15,11 +15,25 @@ export type TurnEvent = {
 
 export const INITIAL_TURN_EVENT = (turn = 1): TurnEvent => ({
   phase: CombatPhase.initiative,
-  initiative: {},
+  initiative: {
+    initiativeWinner: InitActor.Enemies,
+    movesFirst: InitActor.Enemies,
+  },
   movement: {
     selectedCharacterIndex: 0,
+    characterOrder: [InitActor.Enemies, InitActor.Heroes],
   },
-  action: { selectedCharacterIndex: 0 },
+  action: {
+    selectedCharacterIndex: 0,
+    characterOrder: [
+      { id: 1, name: "Bad Guy 1", attackOrder: 1 },
+      { id: 2, name: "Bad Guy 2", attackOrder: 2 },
+      { id: 3, name: "Bad Guy 3", attackOrder: 3 },
+      { id: 4, name: "Hero 1", attackOrder: 4 },
+      { id: 5, name: "Hero 2", attackOrder: 5 },
+      { id: 6, name: "Hero 3", attackOrder: 6 },
+    ],
+  },
   turn,
 });
 
@@ -34,7 +48,7 @@ export type InitiativePhaseEvents = {
 };
 
 export type MovementPhaseEvents = {
-  characterOrder?: MovementCharacterOrder;
+  characterOrder: MovementCharacterOrder;
   selectedCharacterIndex: number;
 };
 
@@ -44,7 +58,7 @@ export type MovementCharacterOrder =
 
 export type ActionCharacterOrder = (BadGuy | Hero)[];
 export type ActionPhaseEvents = {
-  characterOrder?: ActionCharacterOrder;
+  characterOrder: ActionCharacterOrder;
   selectedCharacterIndex: number;
 };
 
