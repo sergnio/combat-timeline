@@ -1,7 +1,9 @@
 import { TimelineNode } from "./styles/Styles";
 import { CombatPhase } from "./types/types";
 
-export default ({ actionOrder, phase, actionIndex }: any) => {
+export default ({ actionOrder, phase, actionIndex, updateOrder }: any) => {
+  // todo - call updateOrder on the final order whenever we rearrange the action order
+
   return (
     <>
       {phase === CombatPhase.action ? (
