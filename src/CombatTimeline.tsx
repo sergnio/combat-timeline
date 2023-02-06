@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import useNewCombatState from "hooks/useNewCombatState";
+import { CombatPhase } from "types/types";
 
 const EntireContainer = styled.div`
   //
@@ -18,9 +19,7 @@ const TimelineContainer = styled.div`
 `;
 
 export default () => {
-  const { timelineData, onAdvanceClick, onPreviousClick } = useNewCombatState();
-
-  const { turn, phase, firstActor, initiativeWinner } = timelineData;
+  const { turn, phase, firstActor, initiativeWinner , onAdvanceClick, onPreviousClick } = useNewCombatState();
 
   const hasFirstActor = Boolean(firstActor);
   const initPhaseDisabled =

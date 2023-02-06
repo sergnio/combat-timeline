@@ -142,6 +142,56 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     }
   };
 
+  const regressTimeline = () => {
+    console.log("regress");
+    const newTurn = turn - 1;
+    setTimeline(INITIAL_TURN_EVENT(newTurn));
+    setTurn(newTurn);
+  };
+
+  const downtickMovementIndex = (): boolean => {
+    const atBeginning = timeline.movement.selectedCharacterIndex <= 0;
+    if (atBeginning) {
+      return true;
+    }
+
+    setTimeline((prevTimeline) => ({
+      ...prevTimeline,
+      movementIndex: prevTimeline.movement.selectedCharacterIndex - 1,
+    }));
+    return false;
+  };
+
+  const onPreviousClick = () => {
+    if (phase === CombatPhase.initiative) {
+      regressTimeline();
+      setPhase(CombatPhase.action);
+    } else if (phase === CombatPhase.movement) {
+      const atEnd = downtickMovementIndex();
+      if (atEnd) {
+        setPhase(CombatPhase.initiative);
+      }
+    } else if (phase === CombatPhase.action) {
+      const atEnd = downtickActionIndex();
+      if (atEnd) {
+        setPhase(CombatPhase.movement);
+      }
+    }
+  };
+
+  const downtickActionIndex = (): boolean => {
+    const atBeginning = timeline.action.selectedCharacterIndex === 0;
+    if (atBeginning) {
+      return true;
+    }
+
+    setTimeline((prevTimeline) => ({
+      ...prevTimeline,
+      actionIndex: prevTimeline.action.selectedCharacterIndex - 1,
+    }));
+    return false;
+  };
+
   const rollInitiative = () => {
     setFirstActorsMovementPhase(InitActor.Heroes);
     updateInitWinner(InitActor.Heroes);
@@ -161,7 +211,11 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     }));
 
   return {
-    timelineData: timeline,
+    turn,
+    phase,
+    firstActor: timeline.initiative.movesFirst,
+    initiativeWinner: timeline.initiative.initiativeWinner,
     onAdvanceClick,
+    onPreviousClick,
   };
 };
