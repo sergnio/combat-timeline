@@ -1,7 +1,15 @@
 import styled, { css } from "styled-components";
-import { NeutralButtonStyles } from "styles/ButtonStyles";
-import { COLORS } from "styles/GlobalStyles";
 import { HTMLProps, PropsWithChildren } from "react";
+
+export const NeutralButtonStyles = styled.button`
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+`;
 
 export const PreviousButton = styled(NeutralButtonStyles)`
   //
@@ -31,8 +39,7 @@ const TimelineNodeContainer = styled.div<TimelineNodeProps>`
   box-shadow: 0px 0px 8px rgba(255, 214, 108, 0.2);
   border: double 2.5px transparent;
   border-radius: 13px;
-  background-image: linear-gradient(${COLORS.brown800}, ${COLORS.brown800}),
-    ${buttonBorderGradient};
+  background-image: linear-gradient(#3a1c1c, #3a1c1c), ${buttonBorderGradient};
   background-origin: border-box;
   background-clip: content-box, border-box;
   text-align: center;
