@@ -215,6 +215,7 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     phase,
     firstActor: timeline.initiative.movesFirst,
     initiativeWinner: timeline.initiative.initiativeWinner,
+    timeline,
     onAdvanceClick,
     onPreviousClick,
   };
