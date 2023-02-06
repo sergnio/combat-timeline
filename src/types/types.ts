@@ -25,17 +25,22 @@ export const INITIAL_TURN_EVENT = (turn = 1): TurnEvent => ({
   },
   action: {
     selectedCharacterIndex: 0,
-    characterOrder: [
-      { id: 1, name: "Bad Guy 1", attackOrder: 1 },
-      { id: 2, name: "Bad Guy 2", attackOrder: 2 },
-      { id: 3, name: "Bad Guy 3", attackOrder: 3 },
-      { id: 4, name: "Hero 1", attackOrder: 4 },
-      { id: 5, name: "Hero 2", attackOrder: 5 },
-      { id: 6, name: "Hero 3", attackOrder: 6 },
-    ],
+    characterOrder: [...badGuys, ...heroes],
   },
   turn,
 });
+
+export const badGuys = [
+  { id: 1, name: "Bad Guy 1", attackOrder: 1 },
+  { id: 2, name: "Bad Guy 2", attackOrder: 2 },
+  { id: 3, name: "Bad Guy 3", attackOrder: 3 },
+];
+
+export const heroes = [
+  { id: 4, name: "Hero 1", attackOrder: 4 },
+  { id: 5, name: "Hero 2", attackOrder: 5 },
+  { id: 6, name: "Hero 3", attackOrder: 6 },
+];
 
 export enum InitActor {
   Heroes = "Heroes",

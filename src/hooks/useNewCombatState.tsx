@@ -1,8 +1,11 @@
 import { useState } from "react";
 import {
   BadGuy,
+  badGuys,
+  bg,
   CombatPhase,
   Hero,
+  heroes,
   InitActor,
   INITIAL_TURN_EVENT,
   TurnEvent,
@@ -10,7 +13,7 @@ import {
 } from "../types/types";
 import { sortActionOrder } from "../helpers/helper";
 
-export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
+export default () => {
   const [turn, setTurn] = useState<number>(1);
   const [entireTimeline, timelineSetter] = useState<TurnEvent[]>([
     INITIAL_TURN_EVENT(),
