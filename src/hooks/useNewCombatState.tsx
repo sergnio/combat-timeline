@@ -143,9 +143,9 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
   };
 
   const rollInitiative = () => {
-    setFirstActorsMovementPhase(InitActor.Heroes)
-    updateInitWinner(InitActor.Heroes)
-  }
+    setFirstActorsMovementPhase(InitActor.Heroes);
+    updateInitWinner(InitActor.Heroes);
+  };
 
   const advanceTimeline = () => {
     console.log("advance");
@@ -154,16 +154,14 @@ export default (badGuys: BadGuy[] = [], heroes: Hero[] = []) => {
     setTurn(turn + 1);
   };
 
-
   const setPhase = (newPhase: CombatPhase) =>
     setTimeline((prevTimeline) => ({
       ...prevTimeline,
       phase: newPhase,
     }));
-    }
 
   return {
     timelineData: timeline,
-    onAdvanceClick
+    onAdvanceClick,
   };
 };
